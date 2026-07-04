@@ -1,38 +1,42 @@
-package org.example.expense_tracker_bx.response;
+package org.example.expense_tracker_bx.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
+import org.jspecify.annotations.Nullable;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
 
-    private int status;
+    private boolean status;
     private String message;
     private T data;
 
-    // --- Static Factory Methods (Using the Builder) ---
+    @Builder.Default
+    private final LocalDateTime timestamp = LocalDateTime.now();
 
-    public static <T> ApiResponse<T> success(T data, String message) {
+    public static <T> ApiResponse<T> ok(T data) {
         return ApiResponse.<T>builder()
-                .status(200)
-                .message(message)
+                .status(true)
                 .data(data)
                 .build();
     }
 
-    public static <T> ApiResponse<T> success(String message) {
+    public static <T> ApiResponse<T> ok(T data, String message){
         return ApiResponse.<T>builder()
-                .status(200)
+                .status(true)
+                .data(data)
                 .message(message)
                 .build();
     }
 
-    public static <T> ApiResponse<T> error(int status, String message) {
+    public static <T> ApiResponse<T> error(String message) {
         return ApiResponse.<T>builder()
-                .status(status)
+                .status(false)
                 .message(message)
                 .build();
     }
