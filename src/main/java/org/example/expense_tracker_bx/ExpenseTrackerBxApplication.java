@@ -9,5 +9,4 @@ public class ExpenseTrackerBxApplication {
     public static void main(String[] args) {
         SpringApplication.run(ExpenseTrackerBxApplication.class, args);
     }
-
 }
