@@ -50,6 +50,8 @@ public interface WalletRepository extends JpaRepository<Wallet, Long> {
      * Custom JPQL query to calculate the user's Total Net Worth across all wallets.
      * (Sums positive bank/cash balances and subtracts credit card debts).
      */
-    @Query("SELECT COALESCE(SUM(w.balance), 0) FROM Wallet w WHERE w.user.id = :userId")
+    List<Wallet> findByUserId(Long userId);
+
+    @Query("SELECT SUM(w.balance) FROM Wallet w WHERE w.user.id = :userId")
     BigDecimal getTotalBalanceByUserId(@Param("userId") Long userId);
 }
